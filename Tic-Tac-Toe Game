@@ -1,0 +1,53 @@
+import random
+print('Welcome to Tic-Tac-Toe!')
+
+while True:
+    board1 = [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ']
+    mark1,mark2 = player_input()
+    turn = choose_first()
+    print(turn)
+    
+    ready = input('Are you ready to play: Yes or No? ').upper()
+    
+    if ready[0] == 'Y':
+        game = True
+    else:
+        game = False
+        
+    while game:
+        if turn == 'Player one goes first':
+            display_board(board1)
+            position = player_choice(board1)
+            place_marker(board1, mark1, position)
+            
+            
+            if win_check(board1, mark1):
+                display_board(board1)
+                print('We have a winner!')
+                game = False
+            else:
+                if full_board_check(board1):
+                    display_board(board1)
+                    print('Draw')
+                    break
+                else:
+                    turn = 'Player two goes first'
+        else:
+            display_board(board1)
+            position = player_choice(board1)
+            place_marker(board1, mark2, position)
+           
+            
+            if win_check(board1, mark2):
+                display_board(board1)
+                print('We have a winner!')
+                game = False
+            else:
+                if full_board_check(board1):
+                    display_board(board1)
+                    print('Draw')
+                    break
+                else:
+                    turn = 'Player one goes first'
+    if not replay():
+        break
