@@ -1,0 +1,98 @@
+from random import randint
+import pgzrun
+WIDTH = 800
+HEIGHT = 600
+balloon = Actor("balloon")
+tree = Actor("tree")
+house = Actor("house")
+bird = Actor("bird-up")
+
+balloon.pos = 400,300
+tree.pos = randint(800,1600), 450
+house.pos = randint(800,1600), 460
+bird.pos = randint(80,1600), randint(10,200)
+game_over = False
+score = 0
+number_of_updates = 0
+up = False
+bird_up = True
+
+
+def draw():
+    screen.blit("background", (0,0))
+    balloon.draw()
+    tree.draw()
+    house.draw()
+    bird.draw()
+    screen.draw.text("Score:"+str(score), (700,5),color = "black")
+'''def update():
+    house.left += 6
+    if house.left>WIDTH:
+        house.right = 0
+        house.image = "house"
+    birdown.right += 6
+    if birdown.right < WIDTH:
+        birdown.left = 0
+        birdown.image= "tree" '''
+def on_mouse_down(pos):
+    global up
+    up = True
+    balloon.y-=50
+    '''if house.collidepoint(pos):
+        print("Very Cool")
+        sounds.starwars.play()
+        house.image = "bird-down"
+    else:
+        print("Not Cool")
+        quit()'''
+def on_mouse_up():
+    global up
+    up=False
+def flap():
+    global bird_up
+    if bird_up:
+        bird.image = "bird-down"
+        bird_up = False
+    else:
+        bird.image="bird-up"
+        bird_up = True
+def display_high_score():
+    screen.fill("red")
+    screen.draw.text("Score: " +str(score),(700,5), color = "black")
+def update():
+    global score, game_over, number_of_updates
+    if not game_over:
+        if not up:
+            balloon.y +=1
+            if bird.x>0:
+                bird.x-=4
+                if number_of_updates==8:
+                    flap()
+                    number_of_updates =0
+                else:
+                    number_of_updates += 1
+            else:
+                bird.x=randint(800,1600)
+                bird.y = randint(10,200)
+                score +=1
+            if house.right>0:
+                house.x-=2
+            else:
+                house.x = randint(800,1600)
+                score += 1
+            if tree.right>0:
+                tree.x-=2
+            else:
+                tree.randint(800,1600)
+                score +=1
+            if balloon.top < 0 or balloon.bottom>560:
+                game_over = True
+                display_high_score()
+            if balloon.collidepoint(bird.x, bird.y) or\
+                balloon.collidepoint(house.x, house.y) or\
+                balloon.collidepoint(tree.x, tree.y):
+                    game_over = True
+                    display_high_score()
+                
+    
+pgzrun.go()
